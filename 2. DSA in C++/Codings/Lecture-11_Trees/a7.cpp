@@ -1,3 +1,4 @@
+#include <climits>
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -20,43 +21,14 @@ class TreeNode {
 
 // #include "solution.h"
 
-
-TreeNode<int>* maxSumNodeHelper(TreeNode<int>* root, int& maxSum) {
-    if (root == nullptr)
-        return nullptr;
-
-    int sum = root->data;
-    for (TreeNode<int>* child : root->children) {
-        sum += child->data;
+void replaceWithDepthValue(TreeNode<int>* root,int a=0) {
+    // Write your code here
+    if(!root) return;
+    root->data=a;
+    for(int i=0;i<root->children.size();i++){
+        replaceWithDepthValue(root->children[i],a+1);
     }
-
-    if (sum > maxSum) {
-        maxSum = sum;
-        return root;
-    }
-
-    TreeNode<int>* maxSumNode = nullptr;
-    for (TreeNode<int>* child : root->children) {
-        TreeNode<int>* childNode = maxSumNodeHelper(child, maxSum);
-        if (childNode != nullptr) {
-            maxSumNode = childNode;
-        }
-    }
-
-    return maxSumNode;
 }
-
-TreeNode<int>* maxSumNode(TreeNode<int>* root) {
-    int maxSum = 0;
-    return maxSumNodeHelper(root, maxSum);
-}
-
-
-
-// TreeNode<int>* maxSumNode(TreeNode<int>* root) {
-//     // Write your code here
-
-// }
 
 TreeNode<int>* takeInputLevelWise() {
     int rootData;
@@ -83,12 +55,30 @@ TreeNode<int>* takeInputLevelWise() {
     return root;
 }
 
+void printLevelATNewLine(TreeNode<int>* root) {
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    q.push(NULL);
+    while (!q.empty()) {
+        TreeNode<int>* first = q.front();
+        q.pop();
+        if (first == NULL) {
+            if (q.empty()) {
+                break;
+            }
+            cout << endl;
+            q.push(NULL);
+            continue;
+        }
+        cout << first->data << " ";
+        for (int i = 0; i < first->children.size(); i++) {
+            q.push(first->children[i]);
+        }
+    }
+}
+
 int main() {
     TreeNode<int>* root = takeInputLevelWise();
-
-    TreeNode<int>* ans = maxSumNode(root);
-
-    if (ans != NULL) {
-        cout << ans->data;
-    }
+    replaceWithDepthValue(root);
+    printLevelATNewLine(root);
 }
