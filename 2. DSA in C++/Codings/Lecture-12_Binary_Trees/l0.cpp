@@ -92,7 +92,6 @@ int height(Btree<int> *root)
     return 1 + max(height(root->left), height(root->right));
 }
 
-
 int diameter(Btree<int> *root)
 { // Function for calculating diameter
     if (root == NULL)
@@ -105,9 +104,36 @@ int diameter(Btree<int> *root)
     return max(option1, max(option2, option3));             // returns the maximum value
 }
 
+//Optimal Height and diameter of a Binary Tree
+pair<int,int> heightDiameter(Btree<int> *root){
+    if(!root){
+        pair <int,int > p ;
+        p.first=p.second=0;
+        return p;
+    }
+    pair<int,int> leftSub = heightDiameter(root->left);
+    pair<int,int> rightSub = heightDiameter(root->right);
+
+    int lh = leftSub.first;
+    int ld = leftSub.second;
+    int rh = rightSub.first;
+    int rd = rightSub.second;
+
+    int height = 1 + max(lh,rh);
+    int diameter = max(lh + rh , max(ld,rd));
+
+    pair<int,int> p;
+    p.first = height;
+    p.second = diameter;
+    return p;
+}
+
 int main()
 {
     // Btree<int> *root = takeInput();
     Btree<int> *root = takeInputLevelWise();
     printTree(root);
+    pair<int,int> p = heightDiameter(root);
+    cout<<"Height = "<<p.first<<" Diameter = "<<p.second<<endl;
+    return 0;
 }

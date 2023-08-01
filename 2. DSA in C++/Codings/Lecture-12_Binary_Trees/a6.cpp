@@ -17,52 +17,73 @@ class BinaryTreeNode {
 
 using namespace std;
 // #include "solution.h"
+/**********************************************************
+	Following is the Binary Tree Node class structure
 
-pair<int, int> getMinAndMax(BinaryTreeNode<int> *root) {
-	// Write your code here
-    if(!root){
-        pair<int,int> p;
-        p.first=0;
-        p.second=0;
-        return p;
-    }
-    // pair<int,int> leftSub = getMinAndMax(root->left);
-    // pair<int,int> rightSub = getMinAndMax(root->right);
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
 
-    // int lmin = leftSub.first;
-    // int lmax = leftSub.second;
-    // int rmin = rightSub.first;
-    // int rmax = rightSub.second;
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
 
-    // int minimum = min(lmin,rmin);
-    // int maximum = max(lmax,rmax);
+***********************************************************/
 
+#include<vector>
+void zigZagOrder(BinaryTreeNode<int> *root) {
+    // Write your code here
+    if(!root) return ;
     queue<BinaryTreeNode<int> *> q;
     q.push(root);
-    int maximum=INT_MIN,minimum=INT_MAX;
+    q.push(NULL);
 
+    vector<vector<int>> vec;
+    vector<int> v;
     while(!q.empty()){
         BinaryTreeNode<int> *t = q.front();
         q.pop();
+        if (t == NULL) {
+            vec.push_back(v);
+            v.clear();
+            if (q.empty()) {
+                break;
+            }
+            // cout << endl;
+            q.push(NULL);
+            continue;
+        }
+        v.push_back(t->data);
+        // cout<<t->data<<" ";
         if(t->left){
             q.push(t->left);
-            if(t->left->data < minimum)    minimum = t->left->data;
-            if(t->left->data > maximum)    maximum = t->left->data;
         }
         if(t->right){
             q.push(t->right);
-            if(t->right->data < minimum)    minimum = t->right->data;
-            if(t->right->data > maximum)    maximum = t->right->data;
         }
     }
-
-    if(root->data < minimum)    minimum = root->data;
-    if(root->data > maximum)    maximum = root->data;
-    pair<int,int> p;
-    p.first = minimum;
-    p.second = maximum;
-    return p;
+    //cout<<vec.size()<<endl;
+    for(int i=0;i<vec.size();i++){
+        if(i%2==0){
+            for(int j=0;j<vec[i].size();j++){
+                cout<<vec[i][j]<<" ";
+            }
+        }
+        else{
+            for(int j=vec[i].size()-1;j>=0;j--){
+                cout<<vec[i][j]<<" ";
+            }
+        }
+        cout<<endl;
+    }
 }
+
 
 BinaryTreeNode<int>* takeInput() {
     int rootData;
@@ -87,7 +108,8 @@ BinaryTreeNode<int>* takeInput() {
 
         cin >> rightChild;
         if (rightChild != -1) {
-            BinaryTreeNode<int>* rightNode = new BinaryTreeNode<int>(rightChild);
+            BinaryTreeNode<int>* rightNode =
+                new BinaryTreeNode<int>(rightChild);
             currentNode->right = rightNode;
             q.push(rightNode);
         }
@@ -97,6 +119,5 @@ BinaryTreeNode<int>* takeInput() {
 
 int main() {
     BinaryTreeNode<int>* root = takeInput();
-    pair<int, int> ans = getMinAndMax(root);
-    cout << ans.first << " " << ans.second;
+    zigZagOrder(root);
 }
