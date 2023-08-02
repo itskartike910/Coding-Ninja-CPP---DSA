@@ -18,9 +18,22 @@ class BinaryTreeNode {
 using namespace std;
 // #include "solution.h"
 
+bool isBSTUtil(BinaryTreeNode<int> *root, int minValue, int maxValue) {
+    if (root == nullptr) {
+        return true;
+    }
+    int nodeValue = root->data;
+    if (nodeValue <= minValue || nodeValue >= maxValue) {
+        return false;
+    }
+    bool leftIsBST = isBSTUtil(root->left, minValue, nodeValue);
+    bool rightIsBST = isBSTUtil(root->right, nodeValue, maxValue);
+
+    return leftIsBST && rightIsBST;
+}
+
 bool isBST(BinaryTreeNode<int> *root) {
-	// Write your code here
-    
+    return isBSTUtil(root, INT_MIN, INT_MAX);
 }
 
 BinaryTreeNode<int>* takeInput() {
