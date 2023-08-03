@@ -19,7 +19,7 @@ using namespace std;
 // #include "solution.h"
 
 bool isBSTUtil(BinaryTreeNode<int> *root, int minValue, int maxValue) {
-    if (root == nullptr) {
+    if (root == NULL) {
         return true;
     }
     int nodeValue = root->data;

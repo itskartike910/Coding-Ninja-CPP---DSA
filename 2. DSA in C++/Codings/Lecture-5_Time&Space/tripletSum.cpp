@@ -5,7 +5,6 @@ using namespace std;
 // #include "solution.h"
 #include<bits/stdc++.h>
 
-
 int tripletSum(int *arr, int n, int num){
 	//Write your code here
 
@@ -76,6 +75,8 @@ int tripletSum(int *arr, int n, int num){
 	// }
 	// return count;
 }
+
+
 
 
 
