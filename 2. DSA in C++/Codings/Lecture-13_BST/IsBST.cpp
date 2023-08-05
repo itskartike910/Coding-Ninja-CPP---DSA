@@ -18,22 +18,46 @@ class BinaryTreeNode {
 using namespace std;
 // #include "solution.h"
 
-bool isBSTUtil(BinaryTreeNode<int> *root, int minValue, int maxValue) {
-    if (root == NULL) {
-        return true;
-    }
-    int nodeValue = root->data;
-    if (nodeValue <= minValue || nodeValue >= maxValue) {
-        return false;
-    }
-    bool leftIsBST = isBSTUtil(root->left, minValue, nodeValue);
-    bool rightIsBST = isBSTUtil(root->right, nodeValue, maxValue);
 
-    return leftIsBST && rightIsBST;
+/*Method 1*/
+
+// bool isBSTUtil(BinaryTreeNode<int> *root, int minValue, int maxValue) {
+//     if (root == NULL) {
+//         return true;
+//     }
+//     int nodeValue = root->data;
+//     if (nodeValue <= minValue || nodeValue >= maxValue) {
+//         return false;
+//     }
+//     bool leftIsBST = isBSTUtil(root->left, minValue, nodeValue);
+//     bool rightIsBST = isBSTUtil(root->right, nodeValue, maxValue);
+
+//     return leftIsBST && rightIsBST;
+// }
+
+// bool isBST(BinaryTreeNode<int> *root) {
+//     return isBSTUtil(root, INT_MIN, INT_MAX);
+// }
+
+
+/*Method 2*/
+
+int minimum(BinaryTreeNode<int> *root){
+    if(!root) return INT_MAX;
+    return min(root->data , min(minimum(root->left),minimum(root->right)));
+}
+int maximum(BinaryTreeNode<int> *root){
+    if(!root) return INT_MIN;
+    return max(root->data , max(minimum(root->left),minimum(root->right)));
 }
 
 bool isBST(BinaryTreeNode<int> *root) {
-    return isBSTUtil(root, INT_MIN, INT_MAX);
+    if(!root) return true;
+    int leftMax = maximum(root->left);
+    int rightMin = minimum(root->right);
+
+    bool ans = (root->data > leftMax) && (root->data < rightMin) && isBST(root->left) && isBST(root->right);
+    return ans;
 }
 
 BinaryTreeNode<int>* takeInput() {
