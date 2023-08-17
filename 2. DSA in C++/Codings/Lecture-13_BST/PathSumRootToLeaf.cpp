@@ -13,39 +13,24 @@ class BinaryTreeNode {
         left = NULL;
         right = NULL;
     }
+
+    ~BinaryTreeNode() {
+        if (left) delete left;
+        if (right) delete right;
+    }
 };
 
 using namespace std;
 // #include "solution.h"
 
-#include<bits/stdc++.h>
-
-
-// pair<bool,bool> path(BinaryTreeNode <int>* root,int a,int b){
-//     pair<bool,bool> ani;
-//     if(!root){
-//         ani.first = false;
-//         ani.second = false;
-//         return ani;
-//     }
-//     if((root->left->data==a && root->right->data==b) || (root->left->data==b && root->right->data==a)){
-//         ani = make_pair(true,true);
-//     }
-// } 
-
-int getLCA(BinaryTreeNode <int>* root , int a, int b) {
+void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
     // Write your code here
-    if(!root) return -1;
-    if(root->data==a || root->data==b) return root->data;
-    int leftLca = getLCA(root->left , a , b);
-    int rightLca = getLCA(root->right , a , b);
-    if(leftLca!=-1 && rightLca!=-1) return root->data;
-    if(leftLca!=-1) return leftLca;
-    return rightLca;
+    
 }
 
 BinaryTreeNode<int>* takeInput() {
     int rootData;
+
     cin >> rootData;
     if (rootData == -1) {
         return NULL;
@@ -78,8 +63,8 @@ BinaryTreeNode<int>* takeInput() {
 
 int main() {
     BinaryTreeNode<int>* root = takeInput();
-    int a, b;
-    cin >> a >> b;
-    cout << getLCA(root, a, b);
+    int k;
+    cin >> k;
+    rootToLeafPathsSumToK(root, k);
     delete root;
 }
