@@ -23,9 +23,34 @@ class BinaryTreeNode {
 using namespace std;
 // #include "solution.h"
 
+#include<vector>
+vector<int> vec;
+
+int sum(vector<int> v){
+    int sum=0;
+    for(int i=0;i<v.size();i++){
+        sum+=v[i];
+    }
+    return sum;
+}
+
+void print(vector<int> v){
+    for(int i=0;i<v.size();i++){
+        cout<<v[i]<<" ";
+    }
+    cout<<endl;
+}
+
 void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
     // Write your code here
-    
+    if(!root)return;
+    vec.push_back(root->data);
+    rootToLeafPathsSumToK(root->left,k);
+    rootToLeafPathsSumToK(root->right,k);
+    if(!root->left && !root->right && sum(vec) == k){   //Leaf Node and (sum==k)
+        print(vec); 
+    }
+    vec.pop_back();
 }
 
 BinaryTreeNode<int>* takeInput() {
