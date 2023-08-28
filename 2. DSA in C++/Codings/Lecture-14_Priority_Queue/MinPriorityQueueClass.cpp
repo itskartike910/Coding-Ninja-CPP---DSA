@@ -48,7 +48,7 @@ class MinPriorityQueue{
         int ans = vec[0];
         vec[0] = vec[vec.size()-1];
         vec.pop_back();
-        //heapifying
+        // Down Heapifying
         int PI = 0;
         while(true){
             int leftChildIndex = 2 * PI + 1;
